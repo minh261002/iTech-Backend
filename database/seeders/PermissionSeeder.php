@@ -332,5 +332,33 @@ class PermissionSeeder extends Seeder
             'guard_name' => 'admin',
             'module_id' => 5,
         ]);
+
+        Permission::create([
+            'title' => 'Xem chuyên mục',
+            'name' => 'viewPostCatalogue',
+            'guard_name' => 'admin',
+            'module_id' => 6,
+        ]);
+
+        Permission::create([
+            'title' => 'Thêm chuyên mục',
+            'name' => 'createPostCatalogue',
+            'guard_name' => 'admin',
+            'module_id' => 6,
+        ]);
+
+        Permission::create([
+            'title' => 'Sửa chuyên mục',
+            'name' => 'editPostCatalogue',
+            'guard_name' => 'admin',
+            'module_id' => 6,
+        ]);
+
+        Permission::create([
+            'title' => 'Xoá chuyên mục',
+            'name' => 'deletePostCatalogue',
+            'guard_name' => 'admin',
+            'module_id' => 6,
+        ]);
     }
 }

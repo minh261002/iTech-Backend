@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PostCatalogueController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,16 @@ Route::group([
             Route::put('/{id}', [MemberController::class, 'update']);
             Route::patch('/{id}/status', [MemberController::class, 'updateStatus']);
             Route::delete('/{id}', [MemberController::class, 'destroy']);
+        });
+
+        //Post Catalogue
+        Route::prefix('post/catalogue')->group(function () {
+            Route::get('/', [PostCatalogueController::class, 'index']);
+            Route::get('/{id}', [PostCatalogueController::class, 'show']);
+            Route::post('create', [PostCatalogueController::class, 'create']);
+            Route::put('/{id}', [PostCatalogueController::class, 'update']);
+            Route::patch('/{id}/status', [PostCatalogueController::class, 'updateStatus']);
+            Route::delete('/{id}', [PostCatalogueController::class, 'destroy']);
         });
     });
 
