@@ -82,6 +82,7 @@ Route::group([
             Route::get('/{id}', [MemberController::class, 'show']);
             Route::post('create', [MemberController::class, 'create']);
             Route::put('/{id}', [MemberController::class, 'update']);
+            Route::patch('/{id}/status', [MemberController::class, 'updateStatus']);
             Route::delete('/{id}', [MemberController::class, 'destroy']);
         });
     });
