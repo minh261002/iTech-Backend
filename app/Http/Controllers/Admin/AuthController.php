@@ -20,11 +20,6 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('auth:api', ['except' => ['login']]);
-    }
-
     public function login(LoginRequest $request)
     {
         $credentials = [
@@ -108,8 +103,8 @@ class AuthController extends Controller
                 $refreshToken = $request->cookie('refresh_token');
                 $refreshTokenData = JWTAuth::getJWTProvider()->decode($refreshToken);
 
-                $admin = Admin::find($refreshTokenData['admin_id']);
-                $token = auth()->guard('admin')->login($admin);
+                $admin = Admin::find($refreshTokenData['user_id']);
+                $token = auth()->guard('admin')->attempt(['email' => $admin->email, 'password' => $admin->password]);
                 $refreshTokenData = $this->refreshTokenData($admin);
                 $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
 
@@ -135,7 +130,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'refresh_token' => $refresh_token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->guard('admin')->factory()->getTTL() * 60, //1 ngày
+            'expires_in' => auth()->guard('admin')->factory()->getTTL() * 60 * 24
         ]);
     }
 
@@ -171,10 +166,10 @@ class AuthController extends Controller
         ];
     }
 
-    private function refreshTokenData($admin)
+    private function refreshTokenData($user)
     {
         return [
-            "admin_id" => $admin->id,
+            "user_id" => $user->id,
             "expires_in" => time() + config('jwt.refresh_ttl ') * 60 * 24 * 14, //2 tuần
             "random" => time() . md5(rand())
         ];
