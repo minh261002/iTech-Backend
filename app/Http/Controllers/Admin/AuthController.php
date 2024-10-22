@@ -11,10 +11,6 @@ use App\Mail\AdminSendResetLinkMail;
 use App\Models\Admin;
 use Exception;
 use Illuminate\Support\Facades\Cookie;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,16 +32,12 @@ class AuthController extends Controller
 
         $admin = auth()->guard('admin')->user();
 
-        $refreshTokenData = $this->refreshTokenData($admin);
 
-        $refresh_token = JWTAuth::getJWTProvider()->encode($refreshTokenData);
-
-        $cookie = $this->setAccessTokenAndRefreshToken($token, $refresh_token);
+        $cookie = $this->setAccessTokenAndRefreshToken($token);
 
         $accessTokenCookie = $cookie['tokenCookie'];
-        $refreshTokenCookie = $cookie['refreshTokenCookie'];
 
-        return $this->respondWithToken($token, $refresh_token, $admin)->withCookie($accessTokenCookie)->withCookie($refreshTokenCookie);
+        return $this->respondWithToken($token, $admin)->withCookie($accessTokenCookie);
     }
 
     public function me()
@@ -66,74 +58,20 @@ class AuthController extends Controller
         auth()->guard('admin')->logout();
 
         $cookie = Cookie::forget('access_token');
-        $refreshTokenCookie = Cookie::forget('refresh_token');
 
-        return response()->json(['message' => 'Đăng xuất thành công'])->withCookie($cookie)->withCookie($refreshTokenCookie);
+        return response()->json(['message' => 'Đăng xuất thành công'])->withCookie($cookie);
     }
 
-    public function refresh(Request $request)
-    {
-        try {
-            if ($request->hasCookie('access_token')) {
-                $token = $request->cookie('access_token');
-
-                $request->headers->set('Authorization', 'Bearer ' . $token);
-            }
-            $admin = JWTAuth::parseToken()->authenticate();
-            $token = auth()->guard('admin')->refresh();
-
-            auth()->guard('admin')->invalidate(true);
-
-            $refreshTokenData = $this->refreshTokenData($admin);
-            $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
-
-            $cookie = $this->setAccessTokenAndRefreshToken($token, $refreshToken);
-
-            $accessTokenCookie = $cookie['tokenCookie'];
-            $refreshTokenCookie = $cookie['refreshTokenCookie'];
-
-            return $this->respondWithToken($token, $refreshToken, $admin)->withCookie($accessTokenCookie)->withCookie($refreshTokenCookie);
-
-        } catch (TokenExpiredException $e) {
-            if ($request->hasCookie('refresh_token')) {
-                if (!$request->cookie('refresh_token')) {
-                    return response()->json(['error' => 'Token không hợp lệ'], 401);
-                }
-
-                $refreshToken = $request->cookie('refresh_token');
-                $refreshTokenData = JWTAuth::getJWTProvider()->decode($refreshToken);
-
-                $admin = Admin::find($refreshTokenData['user_id']);
-                $token = auth()->guard('admin')->attempt(['email' => $admin->email, 'password' => $admin->password]);
-                $refreshTokenData = $this->refreshTokenData($admin);
-                $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
-
-                $cookie = $this->setAccessTokenAndRefreshToken($token, $refreshToken);
-                $accessTokenCookie = $cookie['tokenCookie'];
-                $refreshTokenCookie = $cookie['refreshTokenCookie'];
-
-                return $this->respondWithToken($token, $refreshToken, $admin)->withCookie($accessTokenCookie)->withCookie($refreshTokenCookie);
-            }
-
-            return response()->json(['error' => 'Refresh Token đã hết hạn'], 401);
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'Token không hợp lệ'], 401);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Không có token'], 401);
-        }
-    }
-
-    protected function respondWithToken($token, $refresh_token, $user)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'admin' => new AdminResource($user),
             'access_token' => $token,
-            'refresh_token' => $refresh_token,
             'token_type' => 'bearer',
         ]);
     }
 
-    private function setAccessTokenAndRefreshToken($token, $refresh_token)
+    private function setAccessTokenAndRefreshToken($token)
     {
         $cookie = Cookie::make(
             'access_token',
@@ -147,33 +85,11 @@ class AuthController extends Controller
             "None"
         );
 
-        $refreshTokenCookie = Cookie::make(
-            'refresh_token',
-            $refresh_token,
-            52560000,
-            "/",
-            null,
-            true,
-            true,
-            false,
-            "None"
-        );
-
         return [
             'tokenCookie' => $cookie,
-            'refreshTokenCookie' => $refreshTokenCookie
         ];
     }
 
-
-    private function refreshTokenData($user)
-    {
-        return [
-            "user_id" => $user->id,
-            "expires_in" => time() + config('jwt.refresh_ttl ') * 60 * 24 * 14, //2 tuần
-            "random" => time() . md5(rand())
-        ];
-    }
 
     public function sendLinkResetPassword(ForgotPasswordRequest $request)
     {

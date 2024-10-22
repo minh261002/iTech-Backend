@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ModuleController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostCatalogueController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -18,8 +18,6 @@ Route::group([
     'as' => 'admin.',
     'middleware' => []
 ], function () {
-    Route::post('/generate/upload-url', [AdminController::class, 'generateUploadUrl']);
-
     Route::get('/provinces', [LocationController::class, 'getProvinces']);
     Route::get('/districts/{province_code}', [LocationController::class, 'getDistricts']);
     Route::get('/wards/{district_code}', [LocationController::class, 'getWards']);
@@ -35,7 +33,6 @@ Route::group([
     });
 
     Route::post('auth/login', [AuthController::class, 'login']);
-    Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::post('auth/forgot-password', [AuthController::class, 'sendLinkResetPassword']);
     Route::post('auth/reset-password', [AuthController::class, 'resetPassword']);
 
@@ -106,6 +103,16 @@ Route::group([
             Route::put('/{id}', [PostController::class, 'update']);
             Route::patch('/{id}/status', [PostController::class, 'updateStatus']);
             Route::delete('/{id}', [PostController::class, 'destroy']);
+        });
+
+        //Post
+        Route::prefix('category')->group(function () {
+            Route::get('/', [CategoryController::class, 'index']);
+            Route::get('/{id}', [CategoryController::class, 'show']);
+            Route::post('create', [CategoryController::class, 'create']);
+            Route::put('/{id}', [CategoryController::class, 'update']);
+            Route::patch('/{id}/status', [CategoryController::class, 'updateStatus']);
+            Route::delete('/{id}', [CategoryController::class, 'destroy']);
         });
     });
 

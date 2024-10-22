@@ -58,10 +58,17 @@ class ModuleSeeder extends Seeder
             [
                 'name' => 'Quản lý bài viết',
                 'description' => 'Quản lý bài viết',
-                'status' => 1,
+                'status' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Quản lý danh mục',
+                'description' => 'Quản lý danh mục',
+                'status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

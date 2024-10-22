@@ -29,11 +29,14 @@ class AdminController extends Controller
     public function index()
     {
         try {
-            $modules = $this->repository->getOrderBy('id', 'desc');
+            $admins = $this->repository->getOrderBy('id', 'desc');
+            $admins = $admins->filter(function ($admin) {
+                return $admin->id != auth('admin')->user()->id;
+            });
             return response()->json([
                 'status' => 200,
                 'message' => 'Lấy danh sách admin thành công',
-                'admins' => AdminListResource::collection($modules)
+                'admins' => AdminListResource::collection($admins)
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -43,28 +46,6 @@ class AdminController extends Controller
             ]);
         }
     }
-
-    public function generateUploadUrl(Request $request)
-    {
-        $client = Storage::disk('s3')->getClient();
-        $fileName = Str::random(10) . '_' . $request->fileName;
-        $filePath = 'uploads/' . $fileName;
-
-        $command = $client->getCommand('PutObject', [
-            'Bucket' => config('filesystems.disks.s3.bucket'),
-            'Key' => $filePath,
-            'ContentType' => $request->fileType,
-            'ACL' => 'public-read',
-        ]);
-
-        $request = $client->createPresignedRequest($command, '+20 minutes');
-
-        return [
-            'file_path' => $filePath,
-            'url' => (string) $request->getUri(),
-        ];
-    }
-
     public function show($id)
     {
         try {

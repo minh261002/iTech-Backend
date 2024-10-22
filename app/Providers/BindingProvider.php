@@ -14,6 +14,7 @@ class BindingProvider extends ServiceProvider
         'MemberRepository' => 'MemberRepositoryInterface',
         'PostCatalogueRepository' => 'PostCatalogueRepositoryInterface',
         'PostRepository' => 'PostRepositoryInterface',
+        'CategoryRepository' => 'CategoryRepositoryInterface',
     ];
 
     protected $services = [
@@ -24,6 +25,7 @@ class BindingProvider extends ServiceProvider
         'MemberService' => 'MemberServiceInterface',
         'PostCatalogueService' => 'PostCatalogueServiceInterface',
         'PostService' => 'PostServiceInterface',
+        'CategoryService' => 'CategoryServiceInterface',
     ];
 
     /**

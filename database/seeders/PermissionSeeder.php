@@ -388,5 +388,33 @@ class PermissionSeeder extends Seeder
             'guard_name' => 'admin',
             'module_id' => 7,
         ]);
+
+        Permission::create([
+            'title' => 'Xem danh mục',
+            'name' => 'viewCategory',
+            'guard_name' => 'admin',
+            'module_id' => 8,
+        ]);
+
+        Permission::create([
+            'title' => 'Thêm danh mục',
+            'name' => 'createCategory',
+            'guard_name' => 'admin',
+            'module_id' => 8,
+        ]);
+
+        Permission::create([
+            'title' => 'Sửa danh mục',
+            'name' => 'editCategory',
+            'guard_name' => 'admin',
+            'module_id' => 8,
+        ]);
+
+        Permission::create([
+            'title' => 'Xoá danh mục',
+            'name' => 'deleteCategory',
+            'guard_name' => 'admin',
+            'module_id' => 8,
+        ]);
     }
 }
