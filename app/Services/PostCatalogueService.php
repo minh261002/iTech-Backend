@@ -20,7 +20,7 @@ class PostCatalogueService implements PostCatalogueServiceInterface
     {
 
         $this->data = $request->validated();
-        $data['image'] = $data['image'] ?? 'https://i0.wp.com/sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png?ssl=1';
+        $data['image'] = $data['image'] ?? 'https://res.cloudinary.com/doy3slx9i/image/upload/v1729583527/itech_images/not-found_wqnrcf.jpg';
 
 
         return $this->repository->create($this->data);
@@ -29,7 +29,7 @@ class PostCatalogueService implements PostCatalogueServiceInterface
     public function update(Request $request, $id)
     {
         $this->data = $request->validated();
-        $data['image'] = $data['image'] ?? 'https://i0.wp.com/sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png?ssl=1';
+        $data['image'] = $data['image'] ?? 'https://res.cloudinary.com/doy3slx9i/image/upload/v1729583527/itech_images/not-found_wqnrcf.jpg';
         return $this->repository->update($id, $this->data);
     }
 }

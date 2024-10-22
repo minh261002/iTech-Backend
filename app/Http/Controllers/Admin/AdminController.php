@@ -53,6 +53,8 @@ class AdminController extends Controller
         $command = $client->getCommand('PutObject', [
             'Bucket' => config('filesystems.disks.s3.bucket'),
             'Key' => $filePath,
+            'ContentType' => $request->fileType,
+            'ACL' => 'public-read',
         ]);
 
         $request = $client->createPresignedRequest($command, '+20 minutes');

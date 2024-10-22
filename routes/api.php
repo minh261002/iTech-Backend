@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostCatalogueController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -95,6 +96,16 @@ Route::group([
             Route::put('/{id}', [PostCatalogueController::class, 'update']);
             Route::patch('/{id}/status', [PostCatalogueController::class, 'updateStatus']);
             Route::delete('/{id}', [PostCatalogueController::class, 'destroy']);
+        });
+
+        //Post
+        Route::prefix('post')->group(function () {
+            Route::get('/', [PostController::class, 'index']);
+            Route::get('/{id}', [PostController::class, 'show']);
+            Route::post('create', [PostController::class, 'create']);
+            Route::put('/{id}', [PostController::class, 'update']);
+            Route::patch('/{id}/status', [PostController::class, 'updateStatus']);
+            Route::delete('/{id}', [PostController::class, 'destroy']);
         });
     });
 

@@ -101,8 +101,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 60), // = 1 minute
-
+    'ttl' => env('JWT_TTL', null),
     /*
     |--------------------------------------------------------------------------
     | Refresh time to live
@@ -120,7 +119,7 @@ return [
     |
     */
 
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 60), // = 1 minute
+    'refresh_ttl' => env('JWT_REFRESH_TTL', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -147,7 +146,6 @@ return [
     'required_claims' => [
         'iss',
         'iat',
-        'exp',
         'nbf',
         'sub',
         'jti',

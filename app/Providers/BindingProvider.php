@@ -13,6 +13,7 @@ class BindingProvider extends ServiceProvider
         'AdminRepository' => 'AdminRepositoryInterface',
         'MemberRepository' => 'MemberRepositoryInterface',
         'PostCatalogueRepository' => 'PostCatalogueRepositoryInterface',
+        'PostRepository' => 'PostRepositoryInterface',
     ];
 
     protected $services = [
@@ -22,6 +23,7 @@ class BindingProvider extends ServiceProvider
         'AdminService' => 'AdminServiceInterface',
         'MemberService' => 'MemberServiceInterface',
         'PostCatalogueService' => 'PostCatalogueServiceInterface',
+        'PostService' => 'PostServiceInterface',
     ];
 
     /**

@@ -130,7 +130,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'refresh_token' => $refresh_token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->guard('admin')->factory()->getTTL() * 60 * 24
         ]);
     }
 
@@ -139,7 +138,7 @@ class AuthController extends Controller
         $cookie = Cookie::make(
             'access_token',
             $token,
-            config('jwt.ttl') * 60 * 24, //1 ngày
+            52560000,
             "/",
             null,
             true,
@@ -151,7 +150,7 @@ class AuthController extends Controller
         $refreshTokenCookie = Cookie::make(
             'refresh_token',
             $refresh_token,
-            config('jwt.refresh_ttl') * 60 * 24 * 14, //2 tuần
+            52560000,
             "/",
             null,
             true,
@@ -165,6 +164,7 @@ class AuthController extends Controller
             'refreshTokenCookie' => $refreshTokenCookie
         ];
     }
+
 
     private function refreshTokenData($user)
     {
