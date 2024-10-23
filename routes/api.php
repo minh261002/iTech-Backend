@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostCatalogueController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -113,6 +114,23 @@ Route::group([
             Route::put('/{id}', [CategoryController::class, 'update']);
             Route::patch('/{id}/status', [CategoryController::class, 'updateStatus']);
             Route::delete('/{id}', [CategoryController::class, 'destroy']);
+        });
+
+        //Slider
+        Route::prefix('slider')->group(function () {
+            Route::get('/', [SliderController::class, 'index']);
+            Route::get('/{id}', [SliderController::class, 'show']);
+            Route::post('create', [SliderController::class, 'create']);
+            Route::put('/{id}', [SliderController::class, 'update']);
+            Route::patch('/{id}/status', [SliderController::class, 'updateStatus']);
+            Route::delete('/{id}', [SliderController::class, 'destroy']);
+
+            //SliderItem
+            Route::get('/{slider_id}/items', [SliderController::class, 'getSliderItems']);
+            Route::get('/item/{id}', [SliderController::class, 'getSliderItem']);
+            Route::post('/item/create', [SliderController::class, 'createSliderItem']);
+            Route::put('/item/{id}', [SliderController::class, 'updateSliderItem']);
+            Route::delete('/item/{id}', [SliderController::class, 'destroySliderItem']);
         });
     });
 

@@ -416,5 +416,33 @@ class PermissionSeeder extends Seeder
             'guard_name' => 'admin',
             'module_id' => 8,
         ]);
+
+        Permission::create([
+            'title' => 'Xem slider',
+            'name' => 'viewSlider',
+            'guard_name' => 'admin',
+            'module_id' => 9,
+        ]);
+
+        Permission::create([
+            'title' => 'Thêm slider',
+            'name' => 'createSlider',
+            'guard_name' => 'admin',
+            'module_id' => 9,
+        ]);
+
+        Permission::create([
+            'title' => 'Sửa slider',
+            'name' => 'editSlider',
+            'guard_name' => 'admin',
+            'module_id' => 9,
+        ]);
+
+        Permission::create([
+            'title' => 'Xoá slider',
+            'name' => 'deleteSlider',
+            'guard_name' => 'admin',
+            'module_id' => 9,
+        ]);
     }
 }

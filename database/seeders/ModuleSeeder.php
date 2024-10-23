@@ -65,6 +65,13 @@ class ModuleSeeder extends Seeder
             [
                 'name' => 'Quản lý danh mục',
                 'description' => 'Quản lý danh mục',
+                'status' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Quản lý slider',
+                'description' => 'Quản lý slider',
                 'status' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

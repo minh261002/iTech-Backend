@@ -15,6 +15,8 @@ class BindingProvider extends ServiceProvider
         'PostCatalogueRepository' => 'PostCatalogueRepositoryInterface',
         'PostRepository' => 'PostRepositoryInterface',
         'CategoryRepository' => 'CategoryRepositoryInterface',
+        'SliderRepository' => 'SliderRepositoryInterface',
+        'SliderItemRepository' => 'SliderItemRepositoryInterface',
     ];
 
     protected $services = [
@@ -26,6 +28,7 @@ class BindingProvider extends ServiceProvider
         'PostCatalogueService' => 'PostCatalogueServiceInterface',
         'PostService' => 'PostServiceInterface',
         'CategoryService' => 'CategoryServiceInterface',
+        'SliderService' => 'SliderServiceInterface',
     ];
 
     /**
