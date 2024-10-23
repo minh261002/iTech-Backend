@@ -2,5 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/minhdevi/itech.minhdev.top/
-    - /bin/cp -rf wp-content $DEPLOYPATH
-    - /bin/cp -rf images $DEPLOYPATH
+
+    - /bin/cp -r * $DEPLOYPATH
+    - /bin/cp -r .[^.]* $DEPLOYPATH
+    - /bin/cp -r .cpanel.yml $DEPLOYPATH
+    - /bin/cp -r .htaccess $DEPLOYPATH
