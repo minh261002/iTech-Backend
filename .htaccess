@@ -13,6 +13,7 @@ Options All -Indexes
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
+
     # <Files .env>
     #     Order Allow,Deny
     #     Deny from all
